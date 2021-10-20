@@ -1,0 +1,17 @@
+import re
+file=open('grades.txt','r')
+logdata = file.read()
+
+pattern=r'''(?P<host>\d+(?:\.\d+){3}) # 1+ digits and 3 occurrenses of . and 3 digits
+\s+\S+\s+                 # 1+ whitespaces, 1+ non-whitespaces, 1+ whitespaces
+(?P<user_name>\S+)\s+\[   # 1+ non-whitespaces (Group "user_name"), 1+ whitespaces and [
+(?P<time>[^\]\[]*)\]\s+   # Group "time": 0+ chars other than [ and ], ], 1+ whitespaces
+"(?P<request>[^"]*)"      # ", Group "request": 0+ non-" chars, "
+'''
+dict=re.findall(pattern,logdata,re.VERBOSE)
+lst=list()
+for item in re.finditer(pattern,logdata,re.VERBOSE):
+   material=(item.groupdict())
+   lst.append(material)
+  #print(material)
+print(len(lst))
